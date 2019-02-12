@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ #%L
+  ~ protocol-model
+  ~ %%
+  ~ Copyright (C) 2016 - 2018 République et Canton de Genève
+  ~ %%
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
+  ~ #L%
+  -->
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <username>${env.ARTIFACTORY_USERNAME}</username>
+            <password>${env.ARTIFACTORY_PASSWORD}</password>
+            <id>chvote</id>
+        </server>
+        <server>
+            <username>${env.ARTIFACTORY_USERNAME}</username>
+            <password>${env.ARTIFACTORY_PASSWORD}</password>
+            <id>chvote-snapshots</id>
+        </server>
+    </servers>
+
+    <profiles>
+        <profile>
+            <repositories>
+                <repository>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                </repository>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>chvote</id>
+                    <name>libs-release</name>
+                    <url>${env.MVN_DIST_RELEASES_URL}</url>
+                </repository>
+                <repository>
+                    <snapshots/>
+                    <id>chvote-snapshots</id>
+                    <name>libs-snapshot</name>
+                    <url>${env.MVN_DIST_SNAPSHOTS_URL}</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <id>artifactory</id>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>artifactory</activeProfile>
+    </activeProfiles>
+</settings>
