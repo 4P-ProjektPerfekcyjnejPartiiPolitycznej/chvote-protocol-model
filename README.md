@@ -1,4 +1,6 @@
-# CHVote: Protocol model [![pipeline status](https://gitlab.com/chvote2/protocol-core/chvote-protocol-model/badges/master/pipeline.svg)](https://gitlab.com/chvote2/protocol-core/chvote-protocol-model/commits/master)
+# CHVote: Protocol model
+[![pipeline status](https://gitlab.com/chvote2/protocol-core/chvote-protocol-model/badges/master/pipeline.svg)](https://gitlab.com/chvote2/protocol-core/chvote-protocol-model/commits/master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=chvote-protocol-model&metric=alert_status)](https://sonarcloud.io/dashboard?id=chvote-protocol-model)
 
 This module contains the model classes used in exchanges between different applications of CHvote.
 

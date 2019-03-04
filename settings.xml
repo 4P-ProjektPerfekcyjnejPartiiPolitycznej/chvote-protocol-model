@@ -56,13 +56,13 @@
                     </snapshots>
                     <id>chvote</id>
                     <name>libs-release</name>
-                    <url>${env.MVN_DIST_RELEASES_URL}</url>
+                    <url>${env.MVN_REPO_RELEASES_URL}</url>
                 </repository>
                 <repository>
                     <snapshots/>
                     <id>chvote-snapshots</id>
                     <name>libs-snapshot</name>
-                    <url>${env.MVN_DIST_SNAPSHOTS_URL}</url>
+                    <url>${env.MVN_REPO_SNAPSHOTS_URL}</url>
                 </repository>
             </repositories>
             <pluginRepositories>
@@ -77,11 +77,11 @@
                     <url>https://repo1.maven.org/maven2</url>
                 </pluginRepository>
             </pluginRepositories>
-            <id>artifactory</id>
+            <id>repositories</id>
         </profile>
     </profiles>
 
     <activeProfiles>
-        <activeProfile>artifactory</activeProfile>
+        <activeProfile>repositories</activeProfile>
     </activeProfiles>
 </settings>

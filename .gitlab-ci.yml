@@ -28,40 +28,25 @@ variables:
   # when running from the command line.
   # `installAtEnd` and `deployAtEnd`are only effective with recent version of the corresponding plugins.
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-  #Sonar pre-build
-  SONAR_PRE_BUILD_CMD: "org.jacoco:jacoco-maven-plugin:prepare-agent"
-  #Sonar post-build
-  SONAR_POST_BUILD_CMD: "$SONAR_MAVEN_PLUGIN -Dsonar.host.url=$SONAR2_URL -Dsonar.login=$SONAR2_TOKEN"
 
 stages:
 - build
-- test
 
-maven-build:
+# Build, test and run Sonar analysis for branches
+build:artifact:
   stage: build
   script:
-  - mvn $MAVEN_REPO_OPTS $MAVEN_CLI_OPTS clean package
-  cache:
-    key: chvote-protocol-model-$CI_COMMIT_REF_NAME
-    paths:
-    - .m2/repository/
-
-# Build, test and run Sonar analysis for dev branches (all except master and support branches)
-sonar-preview:
-  stage: test
-  script:
-  - mvn $MAVEN_REPO_OPTS $MAVEN_CLI_OPTS clean $SONAR_PRE_BUILD_CMD verify $SONAR_POST_BUILD_CMD -Dsonar.analysis.mode=preview -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME -Dsonar.gitlab.url=$GITLAB_URL
+  - mvn $MAVEN_REPO_OPTS $MAVEN_CLI_OPTS clean $SONAR_PRE_BUILD_CMD verify $SONAR_POST_BUILD_CMD
   cache:
     key: chvote-protocol-model-$CI_COMMIT_REF_NAME
     paths:
     - .m2/repository/
   except:
-  - master
-  - /^support-\d+\.\d+\.\d+$/
+  - tags
 
-# Full build and artifact deployment for publishing branches ("master" and "support-x.y.z")
-sonar-deploy:
-  stage: test
+# Full build and artifact deployment for tags
+build:deploy:
+  stage: build
   script:
   - mvn $MAVEN_REPO_OPTS $MAVEN_CLI_OPTS clean $SONAR_PRE_BUILD_CMD deploy $SONAR_POST_BUILD_CMD
   cache:
@@ -69,5 +54,4 @@ sonar-deploy:
     paths:
     - .m2/repository/
   only:
-  - master
-  - /^support-\d+\.\d+\.\d+$/
+  - tags
